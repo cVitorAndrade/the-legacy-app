@@ -13,8 +13,9 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@repo/ui/components/ui/sidebar";
-import { Coins, Timer } from "lucide-react";
+import { Bell, Coins, Timer } from "lucide-react";
 import React from "react";
+import { UserNotifications } from "../../components/user-notifications";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -90,18 +91,21 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
               <div className="flex items-center gap-2 px-3 py-1.5 border rounded-md border-white/5 bg-black/20">
                 <div className="w-2 h-2 rounded-full bg-accent-foreground drop-shadow-[0_0_8px_rgba(156,255,147,0.6)] animate-pulse" />
-                <span className="text-[10px] font-heading font-bold text-accent-foreground tracking-widest uppercase">
+                <span className="text-[10px] font-heading font-bold text-accent-foreground tracking-widest uppercase drop-shadow-[0_0_8px_rgba(156,255,147,0.6)]">
                   Mercado: Aberto
                 </span>
               </div>
             </div>
-            
 
-            <div className="flex w-fit items-center gap-2.5 rounded-md border border-white/5 bg-black/20 px-3 py-1.5">
-              <Coins className="size-4 text-accent-foreground drop-shadow-[0_0_8px_rgba(156,255,147,0.6)]" />
-              <span className="font-heading text-lg font-bold tracking-wide text-accent-foreground drop-shadow-[0_0_8px_rgba(156,255,147,0.6)]">
-                € 142.000.000,00
-              </span>
+            <div className="flex items-center gap-2">
+              <div className="flex w-fit items-center gap-2.5 rounded-md border border-white/5 bg-black/20 px-3 py-1.5">
+                <Coins className="size-4 text-accent-foreground drop-shadow-[0_0_8px_rgba(156,255,147,0.6)]" />
+                <span className="font-heading text-lg font-bold tracking-wide text-accent-foreground drop-shadow-[0_0_8px_rgba(156,255,147,0.6)]">
+                  € 142.8M
+                </span>
+              </div>
+
+              <UserNotifications />
             </div>
           </div>
           {/* </div> */}
