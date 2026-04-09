@@ -117,7 +117,7 @@ export function UserNotifications() {
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-80 p-1 border-border">
+      <PopoverContent className="w-80 p-1">
         <div className="flex items-baseline justify-between gap-4 px-3 py-2">
           <div className="text-sm font-semibold">Notifications</div>
           {unreadCount > 0 && (
