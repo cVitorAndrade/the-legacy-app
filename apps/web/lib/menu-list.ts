@@ -18,19 +18,19 @@ export function getMenuList(pathname: string) {
         title: "Visão Geral",
         url: "/app",
         icon: Home,
-        isActive: pathname === "/app"
+        isActive: pathname === "/app",
       },
       {
         title: "Explorar Ligas",
         url: "#",
         icon: Globe,
-        isActive: pathname === "#"
+        isActive: pathname === "#",
       },
       {
         title: "Minha Conta",
         url: "#",
         icon: Settings,
-        isActive: pathname === "#"
+        isActive: pathname === "#",
       },
     ],
     navClub: [
@@ -38,43 +38,43 @@ export function getMenuList(pathname: string) {
         title: "Dashboard",
         url: "#",
         icon: LayoutDashboard,
-        isActive: pathname === "#"
+        isActive: pathname === "#",
       },
       {
         title: "Meu Elenco",
         url: "#",
         icon: Shirt,
-        isActive: pathname === "#"
+        isActive: pathname === "#",
       },
       {
         title: "Central de Jogos",
         url: "#",
         icon: CalendarDays,
-        isActive: pathname === "#"
+        isActive: pathname === "#",
       },
       {
         title: "Competições",
         url: "#",
         icon: Trophy,
-        isActive: pathname === "#"
+        isActive: pathname === "#",
       },
       {
         title: "Mercado",
-        url: "#",
+        url: "/app/league/uuid/market",
         icon: Gavel,
-        isActive: pathname === "#"
+        isActive: pathname === "/app/league/uuid/market",
       },
       {
         title: "Negociações",
         url: "#",
         icon: Handshake,
-        isActive: pathname === "#"
+        isActive: pathname === "#",
       },
-      {
+      {    
         title: "Financeiro",
         url: "#",
         icon: Landmark,
-        isActive: pathname === "#"
+        isActive: pathname === "#",
       },
     ],
   };
