@@ -5,7 +5,6 @@ import * as React from "react";
 
 import { cn } from "@repo/ui/lib/utils";
 
-// Replace `Slider` component in `@components/ui/slider.tsx` with the following code to customize the appearance of the slider.
 const Slider = React.forwardRef<
   React.ElementRef<typeof SliderPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
@@ -23,7 +22,7 @@ const Slider = React.forwardRef<
     </SliderPrimitive.Track>
     {(props.value ?? props.defaultValue)?.map((_, index) => (
       <SliderPrimitive.Thumb
-        className="block h-4 w-4 rounded-full border border-primary/50 bg-background shadow-sm transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+        className="block h-4 w-4 rounded bg-primary border-2 border-foreground bg-background shadow-sm transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
         key={index}
       />
     ))}
@@ -46,12 +45,12 @@ export function DynamicSlider({
   value,
   onValueChange,
 }: DynamicSliderProps) {
-  const [from] = value;
-
   return (
     <div className="mx-auto w-full max-w-sm">
       <div className="flex w-full items-center justify-between gap-2">
-        <span className="text-muted-foreground text-sm">0</span>
+        <span className="text-muted-foreground text-base font-semibold font-heading tracking-wide">
+          {min}
+        </span>
         <Slider
           min={min}
           max={max}
@@ -59,9 +58,10 @@ export function DynamicSlider({
           step={step}
           value={value}
         />
-        <span className="text-muted-foreground text-sm">100</span>
+        <span className="text-muted-foreground text-base font-semibold font-heading tracking-wide">
+          {max}
+        </span>
       </div>
-      <p className="mt-2 text-center text-muted-foreground text-sm">{from}</p>
     </div>
   );
 }
