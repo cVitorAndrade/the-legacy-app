@@ -46,7 +46,7 @@ export function DynamicSlider({
   onValueChange,
 }: DynamicSliderProps) {
   return (
-    <div className="mx-auto w-full max-w-sm">
+    <div className="mx-auto w-full ">
       <div className="flex w-full items-center justify-between gap-2">
         <span className="text-muted-foreground text-base font-semibold font-heading tracking-wide">
           {min}
