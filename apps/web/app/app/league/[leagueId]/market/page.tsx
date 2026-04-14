@@ -1,9 +1,87 @@
 import { Button } from "@repo/ui/components/ui/button";
-import { Gavel, Globe } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@repo/ui/components/ui/select";
+import {
+  Clock,
+  Gavel,
+  Globe,
+  Sparkles,
+  Star,
+  TrendingDown,
+  TrendingUp,
+} from "lucide-react";
+import AuctionFiltersSidebar from "./_components/auction-filters-sidebar";
 
 export default function MarketPage() {
   return (
-    <main className="w-full py-4">
+    <div className="flex flex-col gap-4">
+      <div className="flex items-center justify-between">
+        <h3 className="text-xl font-heading font-bold tracking-tight text-foreground">
+          JOGADORES DISPONÍVEIS{" "}
+          <span className="text-muted-foreground ml-2 font-normal">
+            (1.432)
+          </span>
+        </h3>
+
+        <div className="flex gap-4 items-center">
+          <span className="text-xs text-muted-foreground uppercase font-bold tracking-widest flex items-center gap-2">
+            Ordenar Por:
+            <Select defaultValue="ending_soon">
+              <SelectTrigger className="w-[200px] border-border text-foreground focus:ring-1 focus:ring-primary focus:outline-none transition-colors">
+                <SelectValue placeholder="Ordenar por..." />
+              </SelectTrigger>
+
+              <SelectContent className="">
+                <SelectGroup>
+                  <SelectItem value="ending_soon" className="cursor-pointer">
+                    <div className="flex items-center gap-2">
+                      <Clock className="w-4 h-4 " />
+                      <span>Fim Próximo</span>
+                    </div>
+                  </SelectItem>
+
+                  <SelectItem value="newest" className="cursor-pointer">
+                    <div className="flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 " />
+                      <span>Mais Recentes</span>
+                    </div>
+                  </SelectItem>
+
+                  <SelectItem value="highest_ovr" className="cursor-pointer">
+                    <div className="flex items-center gap-2">
+                      <Star className="w-4 h-4 " />
+                      <span>Maior Overall</span>
+                    </div>
+                  </SelectItem>
+
+                  <SelectItem value="highest_bid" className="cursor-pointer">
+                    <div className="flex items-center gap-2">
+                      <TrendingUp className="w-4 h-4" />
+                      <span>Maior Lance</span>
+                    </div>
+                  </SelectItem>
+
+                  <SelectItem value="lowest_bid" className="cursor-pointer">
+                    <div className="flex items-center gap-2">
+                      <TrendingDown className="w-4 h-4 " />
+                      <span>Menor Lance</span>
+                    </div>
+                  </SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </span>
+
+          <AuctionFiltersSidebar />
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 w-full">
         <div className="group relative bg-card overflow-hidden rounded-lg transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,227,115,0.25)] hover:border-pos-goalkeeper/20 border border-border">
           <div className="absolute top-4 left-4 z-10 flex flex-col items-center">
@@ -26,12 +104,12 @@ export default function MarketPage() {
             <div className="absolute bottom-4 left-0 w-full px-4">
               <div className="backdrop-blur-md bg-white/10 px-3 py-2 rounded border-l-4 border-pos-goalkeeper">
                 <h3 className="font-heading font-bold text-lg leading-none truncate">
-                  KYLIAN MBAPPÉ
+                  THIBAUT COURTOIS
                 </h3>
                 <div className="flex items-center mt-1 space-x-2">
                   <Globe className="size-4" />
                   <span className="text-[10px] font-bold uppercase tracking-widest">
-                    France
+                    Belgium
                   </span>
                 </div>
               </div>
@@ -113,12 +191,12 @@ export default function MarketPage() {
             <div className="absolute bottom-4 left-0 w-full px-4">
               <div className="backdrop-blur-md bg-white/10 px-3 py-2 rounded border-l-4 border-pos-defender">
                 <h3 className="font-heading font-bold text-lg leading-none truncate">
-                  KYLIAN MBAPPÉ
+                  TRENT ALEXANDER ARNOLD
                 </h3>
                 <div className="flex items-center mt-1 space-x-2">
                   <Globe className="size-4" />
                   <span className="text-[10px] font-bold uppercase tracking-widest">
-                    France
+                    England
                   </span>
                 </div>
               </div>
@@ -200,12 +278,12 @@ export default function MarketPage() {
             <div className="absolute bottom-4 left-0 w-full px-4">
               <div className="backdrop-blur-md bg-white/10 px-3 py-2 rounded border-l-4 border-pos-midfielder">
                 <h3 className="font-heading font-bold text-lg leading-none truncate">
-                  KYLIAN MBAPPÉ
+                  RAPHAEL VEIGA
                 </h3>
                 <div className="flex items-center mt-1 space-x-2">
                   <Globe className="size-4" />
                   <span className="text-[10px] font-bold uppercase tracking-widest">
-                    France
+                    BRAZIL
                   </span>
                 </div>
               </div>
@@ -353,6 +431,6 @@ export default function MarketPage() {
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
