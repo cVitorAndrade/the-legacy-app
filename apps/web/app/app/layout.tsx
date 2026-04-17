@@ -21,7 +21,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
+      <SidebarInset className="min-w-0">
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-16 border-b border-border">
           <div className="flex items-center justify-between gap-2 px-4 w-full">
             <div className="flex items-center gap-2 ">
@@ -110,7 +110,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           </div>
           {/* </div> */}
         </header>
-        <main className="px-4 flex-1 pb-4 flex">{children}</main>
+
+        <main className="px-4 flex-1 pb-4 flex flex-col min-w-0">
+          {children}
+        </main>
       </SidebarInset>
     </SidebarProvider>
   );
