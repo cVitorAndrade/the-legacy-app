@@ -26,7 +26,8 @@ import {
   CommandList,
   CommandSeparator,
 } from "@repo/ui/components/ui/command";
-import { ScrollArea } from "./scroll-area";
+
+const NODE_ENV = "development";
 
 /**
  * Animation types and configurations
@@ -372,6 +373,7 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
       (
         opts: MultiSelectOption[] | MultiSelectGroup[],
       ): opts is MultiSelectGroup[] => {
+        // @ts-ignore
         return opts.length > 0 && "heading" in opts[0];
       },
       [],
@@ -550,7 +552,7 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
           uniqueOptions.push(option);
         }
       });
-      if (process.env.NODE_ENV === "development" && duplicates.length > 0) {
+      if (NODE_ENV === "development" && duplicates.length > 0) {
         const action = deduplicateOptions
           ? "automatically removed"
           : "detected";
@@ -571,7 +573,7 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
     const getOptionByValue = React.useCallback(
       (value: string): MultiSelectOption | undefined => {
         const option = getAllOptions().find((option) => option.value === value);
-        if (!option && process.env.NODE_ENV === "development") {
+        if (!option && NODE_ENV === "development") {
           console.warn(
             `MultiSelect: Option with value "${value}" not found in options list`,
           );
@@ -882,7 +884,7 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
                           >
                             {IconComponent && !responsiveSettings.hideIcons && (
                               <IconComponent
-                              // @ts-ignore
+                                // @ts-ignore
                                 fill="currentColor"
                                 className={cn(
                                   "h-4 w-4 mr-2 text-quaternary",
@@ -1178,7 +1180,7 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
                           </div>
                           {option.icon && (
                             <option.icon
-                            // @ts-ignore
+                              // @ts-ignore
                               fill="currentColor"
                               className="mr-2 h-4 w-4 text-quaternary"
                               aria-hidden="true"

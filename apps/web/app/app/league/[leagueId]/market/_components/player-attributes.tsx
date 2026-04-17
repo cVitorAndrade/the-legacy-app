@@ -16,7 +16,7 @@ const PLAYER_ATTRIBUTES = [
     category: "Ritmo",
     label: "",
     attributes: [
-      { label: "Vel máxima", value: "Top Speed", rating: 96 },
+      { label: "Vel. máxima", value: "Top Speed", rating: 96 },
       { label: "Aceleração", value: "Acceleration", rating: 96 },
       { label: "Agilidade", value: "Agility", rating: 90 },
       { label: "Equilíbrio", value: "Balance", rating: 93 },

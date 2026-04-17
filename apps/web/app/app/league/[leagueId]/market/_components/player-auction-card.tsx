@@ -12,15 +12,7 @@ import {
   DrawerTitle,
 } from "@repo/ui/components/ui/drawer";
 import { ScrollArea } from "@repo/ui/components/ui/scroll-area";
-import {
-  Flag,
-  Gavel,
-  Globe,
-  Pin,
-  SquareArrowOutUpRight,
-  Timer,
-  X,
-} from "lucide-react";
+import { Gavel, Globe, Pin, SquareArrowOutUpRight, Timer } from "lucide-react";
 import { MonetaryInput } from "@repo/ui/components/ui/monetary-input";
 import PlayerAttributes from "./player-attributes";
 import BidHistory from "./bid-history";
@@ -158,7 +150,7 @@ export default function PlayerAuctionCard() {
       </div>
 
       <DrawerContent
-        className="w-xl pr-2"
+        className="w-full md:w-xl pr-2"
         aria-describedby="Player-Auction-Drawer"
       >
         <DrawerHeader className="sr-only">
