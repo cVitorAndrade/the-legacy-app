@@ -22,16 +22,16 @@ import PlayerAuctionCard from "./_components/player-auction-card";
 export default function MarketPage() {
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <h3 className="text-xl font-heading font-bold tracking-tight text-foreground">
+      <div className="flex flex-col lg:items-center gap-4 justify-between lg:group-data-[state=expanded]/sidebar-wrapper:flex-col lg:group-data-[state=expanded]/sidebar-wrapper:items-start lg:group-data-[state=collapsed]/sidebar-wrapper:flex-row xl:group-data-[state=expanded]/sidebar-wrapper:flex-row lg:flex-row xl:flex-row">
+        <h3 className="text-xl font-heading font-bold tracking-tight text-foreground flex gap-1 justify-between sm:block">
           JOGADORES DISPONÍVEIS{" "}
           <span className="text-muted-foreground ml-2 font-normal">
             (1.432)
           </span>
         </h3>
 
-        {/* <div className="flex gap-4 items-center">
-          <span className="text-xs text-muted-foreground uppercase font-bold tracking-widest flex items-center gap-2">
+        <div className="flex gap-4 items-center flex-col sm:flex-row sm:justify-between">
+          <span className="text-xs text-muted-foreground uppercase font-bold tracking-widest flex items-center gap-2 justify-between w-full sm:w-fit ">
             Ordenar Por:
             <Select defaultValue="ending_soon">
               <SelectTrigger className="w-[200px] border-border text-foreground focus:ring-1 focus:ring-primary focus:outline-none transition-colors">
@@ -80,10 +80,10 @@ export default function MarketPage() {
           </span>
 
           <AuctionFiltersSidebar />
-        </div> */}
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 w-full md:group-data-[state=expanded]/sidebar-wrapper:grid-cols-1 lg:group-data-[state=expanded]/sidebar-wrapper:grid-cols-2 xl:group-data-[state=expanded]/sidebar-wrapper:grid-cols-3 2xl:group-data-[state=expanded]/sidebar-wrapper:grid-cols-4 ">
         <PlayerAuctionCard />
 
         <div className="group relative bg-card overflow-hidden rounded-lg transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,227,115,0.25)] hover:border-pos-goalkeeper/20 border border-border">
@@ -96,7 +96,7 @@ export default function MarketPage() {
             </span>
           </div>
 
-          <div className="player-clip relative h-64 bg-linear-to-b from-surface-container-high to-surface-container">
+          <div className="player-clip relative aspect-4/3 bg-linear-to-b from-surface-container-high to-surface-container">
             <img
               alt="Star striker in action"
               className="w-full h-full object-cover mix-blend-luminosity group-hover:mix-blend-normal transition-all duration-500"
@@ -183,7 +183,7 @@ export default function MarketPage() {
             </span>
           </div>
 
-          <div className="player-clip relative h-64 bg-linear-to-b from-surface-container-high to-surface-container">
+          <div className="player-clip relative aspect-4/3 bg-linear-to-b from-surface-container-high to-surface-container">
             <img
               alt="Star striker in action"
               className="w-full h-full object-cover mix-blend-luminosity group-hover:mix-blend-normal transition-all duration-500"
@@ -270,7 +270,7 @@ export default function MarketPage() {
             </span>
           </div>
 
-          <div className="player-clip relative h-64 bg-linear-to-b from-surface-container-high to-surface-container">
+          <div className="player-clip relative aspect-4/3 bg-linear-to-b from-surface-container-high to-surface-container">
             <img
               alt="Star striker in action"
               className="w-full h-full object-cover mix-blend-luminosity group-hover:mix-blend-normal transition-all duration-500"
@@ -357,7 +357,7 @@ export default function MarketPage() {
             </span>
           </div>
 
-          <div className="player-clip relative h-64 bg-linear-to-b from-surface-container-high to-surface-container">
+          <div className="player-clip relative aspect-4/3 bg-linear-to-b from-surface-container-high to-surface-container">
             <img
               alt="Star striker in action"
               className="w-full h-full object-cover mix-blend-luminosity group-hover:mix-blend-normal transition-all duration-500"

@@ -140,7 +140,7 @@ export default function AuctionFiltersSidebar() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button className="flex items-center justify-center gap-2 px-5 py-2.5 bg-linear-to-br from-[#9cff93] to-[#00fc40] text-[#006413] font-sans font-black text-xs tracking-widest uppercase rounded-md hover:brightness-105 transition-all shadow-[0_0_15px_rgba(0,252,64,0.2)] cursor-pointer">
+        <Button className="flex w-full md:w-fit items-center justify-center gap-2 px-5 py-2.5 bg-linear-to-br from-[#9cff93] to-[#00fc40] text-[#006413] font-sans font-black text-xs tracking-widest uppercase rounded-md hover:brightness-105 transition-all shadow-[0_0_15px_rgba(0,252,64,0.2)] cursor-pointer">
           <SlidersHorizontal className="w-[18px] h-[18px]" strokeWidth={2.5} />
           Filtros Avançados
         </Button>

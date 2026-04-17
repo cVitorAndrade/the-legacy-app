@@ -87,7 +87,7 @@ export default function MarketLayout({
       </div>
 
       <ScrollArea className="w-full mb-6 whitespace-nowrap">
-        <div className="flex w-max items-center gap-8 border-b border-border px-1">
+        <div className="flex w-full items-center gap-8 border-b border-border px-1">
           <button className="shrink-0 pb-4 text-accent-foreground border-b-2 border-accent-foreground font-bold transition-colors relative">
             Mercado Aberto
           </button>

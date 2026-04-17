@@ -60,7 +60,7 @@ export default function PlayerAuctionCard() {
           </span>
         </div>
 
-        <div className="player-clip relative h-64 bg-linear-to-b from-surface-container-high to-surface-container">
+        <div className="player-clip relative aspect-4/3 bg-linear-to-b from-surface-container-high to-surface-container">
           <img
             alt="Star striker in action"
             className="w-full h-full object-cover mix-blend-luminosity group-hover:mix-blend-normal transition-all duration-500"
