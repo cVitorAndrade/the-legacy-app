@@ -1,3 +1,4 @@
+import { ScrollArea, ScrollBar } from "@repo/ui/components/ui/scroll-area";
 import { Coins, Gavel, Timer } from "lucide-react";
 
 export default function MarketLayout({
@@ -6,7 +7,7 @@ export default function MarketLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="w-full py-4">
+    <main className="w-full py-4 min-w-0">
       <div className="mb-8 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
         <div>
           <div className="flex items-center gap-1 mb-2 bg-primary/10 p-1.5 rounded-md border border-primary w-fit">
@@ -29,7 +30,7 @@ export default function MarketLayout({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:group-data-[state=expanded]/sidebar-wrapper:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:group-data-[state=expanded]/sidebar-wrapper:grid-cols-3 lg:group-data-[state=expanded]/sidebar-wrapper:grid-cols-2 gap-6 mb-8">
         <div className="glass-panel border rounded-md border-primary/40 hover:border-primary  p-6 flex items-start justify-between group transition-all duration-300">
           <div className="space-y-2">
             <span className="text-[11px] font-bold uppercase tracking-widest text-zinc-400 flex items-center gap-2">
@@ -85,29 +86,33 @@ export default function MarketLayout({
         </div>
       </div>
 
-      <div className="border-b border-border flex items-center gap-8 mb-6">
-        <button className="pb-4 text-accent-foreground border-b-2 border-accent-foreground font-bold transition-colors relative drop-shadow-[0_0_8px_rgba(156,255,147,0.6)]">
-          Mercado Aberto
-        </button>
+      <ScrollArea className="w-full mb-6 whitespace-nowrap">
+        <div className="flex w-max items-center gap-8 border-b border-border px-1">
+          <button className="shrink-0 pb-4 text-accent-foreground border-b-2 border-accent-foreground font-bold transition-colors relative">
+            Mercado Aberto
+          </button>
 
-        <button className="text-muted-foreground pb-4 hover:text-foreground font-medium transition-colors flex items-center gap-2">
-          Meus Lances
-          <span className="bg-secondary text-secondary-foreground text-[10px] font-black px-1.5 py-0.5 rounded-sm">
-            03
-          </span>
-        </button>
+          <button className="shrink-0 text-muted-foreground pb-4 hover:text-foreground font-medium transition-colors flex items-center gap-2">
+            Meus Lances
+            <span className="bg-secondary text-secondary-foreground text-[10px] font-black px-1.5 py-0.5 rounded-sm">
+              03
+            </span>
+          </button>
 
-        <button className="text-muted-foreground pb-4 hover:text-foreground font-medium transition-colors">
-          Minhas Vendas
-        </button>
+          <button className="shrink-0 text-muted-foreground pb-4 hover:text-foreground font-medium transition-colors">
+            Minhas Vendas
+          </button>
 
-        <button className="text-muted-foreground pb-4 hover:text-foreground font-medium transition-colors flex items-center gap-2">
-          Lista de Observação
-          <span className="bg-quaternary text-quaternary-foreground text-[10px] font-black px-1.5 py-0.5 rounded-sm">
-            03
-          </span>
-        </button>
-      </div>
+          <button className="shrink-0 text-muted-foreground pb-4 hover:text-foreground font-medium transition-colors flex items-center gap-2">
+            Lista de Observação
+            <span className="bg-quaternary text-quaternary-foreground text-[10px] font-black px-1.5 py-0.5 rounded-sm">
+              03
+            </span>
+          </button>
+        </div>
+
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
 
       {children}
     </main>

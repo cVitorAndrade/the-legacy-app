@@ -30,7 +30,7 @@ export default function MarketPage() {
           </span>
         </h3>
 
-        <div className="flex gap-4 items-center">
+        {/* <div className="flex gap-4 items-center">
           <span className="text-xs text-muted-foreground uppercase font-bold tracking-widest flex items-center gap-2">
             Ordenar Por:
             <Select defaultValue="ending_soon">
@@ -80,7 +80,7 @@ export default function MarketPage() {
           </span>
 
           <AuctionFiltersSidebar />
-        </div>
+        </div> */}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 w-full">
