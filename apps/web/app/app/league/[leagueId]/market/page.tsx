@@ -17,6 +17,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import AuctionFiltersSidebar from "./_components/auction-filters-sidebar";
+import PlayerAuctionCard from "./_components/player-auction-card";
 
 export default function MarketPage() {
   return (
@@ -83,6 +84,8 @@ export default function MarketPage() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 w-full">
+        <PlayerAuctionCard />
+
         <div className="group relative bg-card overflow-hidden rounded-lg transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,227,115,0.25)] hover:border-pos-goalkeeper/20 border border-border">
           <div className="absolute top-4 left-4 z-10 flex flex-col items-center">
             <span className="font-heading text-4xl font-black text-pos-goalkeeper leading-none drop-shadow-[0_0_8px_rgba(255,227,115,0.6)]">

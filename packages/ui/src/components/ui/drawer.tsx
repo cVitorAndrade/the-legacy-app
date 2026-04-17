@@ -1,29 +1,52 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Drawer as DrawerPrimitive } from "vaul"
+import * as React from "react";
+import { Drawer as DrawerPrimitive } from "vaul";
+import { cn } from "@repo/ui/lib/utils";
 
-import { cn } from "@repo/ui/lib/utils"
+const DrawerPositionContext = React.createContext<
+  "left" | "top" | "right" | "bottom"
+>("bottom");
 
 const Drawer = ({
   shouldScaleBackground = true,
+  position = "bottom",
+  direction,
+  children,
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Root>) => (
-  <DrawerPrimitive.Root
-    shouldScaleBackground={shouldScaleBackground}
-    {...props}
-  />
-)
-Drawer.displayName = "Drawer"
+}: React.ComponentProps<typeof DrawerPrimitive.Root> & {
+  /**
+   * Which edge of the viewport the drawer should slide in from.
+   *
+   * @remarks
+   * - `'left'` — slides in from the left side
+   * - `'top'` — slides down from the top
+   * - `'right'` — slides in from the right side
+   * - `'bottom'` — slides up from the bottom
+   *
+   * @default 'bottom'
+   */
+  position?: "left" | "top" | "right" | "bottom";
+  children: React.ReactNode;
+}) => (
+  <DrawerPositionContext.Provider value={position}>
+    <DrawerPrimitive.Root
+      shouldScaleBackground={shouldScaleBackground}
+      direction={position}
+      {...props}
+    >
+      {children}
+    </DrawerPrimitive.Root>
+  </DrawerPositionContext.Provider>
+);
+Drawer.displayName = "Drawer";
 
-const DrawerTrigger = DrawerPrimitive.Trigger
-
-const DrawerPortal = DrawerPrimitive.Portal
-
-const DrawerClose = DrawerPrimitive.Close
+const DrawerTrigger = DrawerPrimitive.Trigger;
+const DrawerPortal = DrawerPrimitive.Portal;
+const DrawerClose = DrawerPrimitive.Close;
 
 const DrawerOverlay = React.forwardRef<
-  React.ElementRef<typeof DrawerPrimitive.Overlay>,
+  React.ComponentRef<typeof DrawerPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Overlay
@@ -31,29 +54,59 @@ const DrawerOverlay = React.forwardRef<
     className={cn("fixed inset-0 z-50 bg-black/80", className)}
     {...props}
   />
-))
-DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName
+));
+DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
+
+const ContentPositions = {
+  left: "right-auto -left-1 top-0 bottom-0 mt-0 rounded-r-[10px] pr-8",
+  right: "left-auto -right-1 top-0 bottom-0 mt-0 rounded-l-[10px] pl-4",
+  top: "top-0 bottom-auto mt-0 rounded-b-[10px] mx-auto pt-8",
+  bottom: "bottom-0 mt-24 rounded-t-[10px]",
+} as const;
+
+const LinePositions = {
+  left: "absolute right-2 top-1/2 -translate-y-1/2 w-2 h-32",
+  right: "absolute left-2 top-1/2 -translate-y-1/2 w-2 h-32 left-2.5",
+  top: "relative mx-auto w-12 h-2 mb-3",
+  bottom: "relative mx-auto mb-auto w-12 h-2 mt-3",
+} as const;
 
 const DrawerContent = React.forwardRef<
-  React.ElementRef<typeof DrawerPrimitive.Content>,
+  React.ComponentRef<typeof DrawerPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>
->(({ className, children, ...props }, ref) => (
-  <DrawerPortal>
-    <DrawerOverlay />
-    <DrawerPrimitive.Content
-      ref={ref}
+>(({ className, children, ...props }, ref) => {
+  const position = React.useContext(DrawerPositionContext);
+
+  const trailingLine = (
+    <div
       className={cn(
-        "fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background",
-        className
+        "rounded-full bg-muted ui:cursor-grab",
+        LinePositions[position],
       )}
-      {...props}
-    >
-      <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
-      {children}
-    </DrawerPrimitive.Content>
-  </DrawerPortal>
-))
-DrawerContent.displayName = "DrawerContent"
+    />
+  );
+
+  return (
+    <DrawerPortal>
+      <DrawerOverlay />
+      <DrawerPrimitive.Content
+        ref={ref}
+        className={cn(
+          "fixed inset-x-0 z-50 flex h-auto flex-col",
+          ContentPositions[position],
+          "border border-border outline-0 ring-0 !bg-popover",
+          className,
+        )}
+        {...props}
+      >
+        {position !== "top" && trailingLine}
+        {children}
+        {position === "top" && trailingLine}
+      </DrawerPrimitive.Content>
+    </DrawerPortal>
+  );
+});
+DrawerContent.displayName = "DrawerContent";
 
 const DrawerHeader = ({
   className,
@@ -63,8 +116,8 @@ const DrawerHeader = ({
     className={cn("grid gap-1.5 p-4 text-center sm:text-left", className)}
     {...props}
   />
-)
-DrawerHeader.displayName = "DrawerHeader"
+);
+DrawerHeader.displayName = "DrawerHeader";
 
 const DrawerFooter = ({
   className,
@@ -74,26 +127,26 @@ const DrawerFooter = ({
     className={cn("mt-auto flex flex-col gap-2 p-4", className)}
     {...props}
   />
-)
-DrawerFooter.displayName = "DrawerFooter"
+);
+DrawerFooter.displayName = "DrawerFooter";
 
 const DrawerTitle = React.forwardRef<
-  React.ElementRef<typeof DrawerPrimitive.Title>,
+  React.ComponentRef<typeof DrawerPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Title
     ref={ref}
     className={cn(
       "text-lg font-semibold leading-none tracking-tight",
-      className
+      className,
     )}
     {...props}
   />
-))
-DrawerTitle.displayName = DrawerPrimitive.Title.displayName
+));
+DrawerTitle.displayName = DrawerPrimitive.Title.displayName;
 
 const DrawerDescription = React.forwardRef<
-  React.ElementRef<typeof DrawerPrimitive.Description>,
+  React.ComponentRef<typeof DrawerPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Description
@@ -101,18 +154,18 @@ const DrawerDescription = React.forwardRef<
     className={cn("text-sm text-muted-foreground", className)}
     {...props}
   />
-))
-DrawerDescription.displayName = DrawerPrimitive.Description.displayName
+));
+DrawerDescription.displayName = DrawerPrimitive.Description.displayName;
 
 export {
   Drawer,
+  DrawerTrigger,
   DrawerPortal,
   DrawerOverlay,
-  DrawerTrigger,
   DrawerClose,
   DrawerContent,
   DrawerHeader,
   DrawerFooter,
   DrawerTitle,
   DrawerDescription,
-}
+};

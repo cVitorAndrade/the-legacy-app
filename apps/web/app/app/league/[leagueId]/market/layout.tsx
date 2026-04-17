@@ -92,7 +92,7 @@ export default function MarketLayout({
 
         <button className="text-muted-foreground pb-4 hover:text-foreground font-medium transition-colors flex items-center gap-2">
           Meus Lances
-          <span className="bg-tertiary text-tertiary-foreground text-[10px] font-black px-1.5 py-0.5 rounded-sm">
+          <span className="bg-secondary text-secondary-foreground text-[10px] font-black px-1.5 py-0.5 rounded-sm">
             03
           </span>
         </button>
@@ -103,7 +103,7 @@ export default function MarketLayout({
 
         <button className="text-muted-foreground pb-4 hover:text-foreground font-medium transition-colors flex items-center gap-2">
           Lista de Observação
-          <span className="bg-secondary text-secondary-foreground text-[10px] font-black px-1.5 py-0.5 rounded-sm">
+          <span className="bg-quaternary text-quaternary-foreground text-[10px] font-black px-1.5 py-0.5 rounded-sm">
             03
           </span>
         </button>
