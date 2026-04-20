@@ -16,4 +16,8 @@ export class NestEnvConfigAdapter implements EnvConfig {
   getNodeEnv(): string {
     return this.configService.get('NODE_ENV', { infer: true });
   }
+
+  getDatabaseUrl(): string {
+    return this.configService.get('DATABASE_URL', { infer: true });
+  }
 }

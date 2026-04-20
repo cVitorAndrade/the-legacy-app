@@ -1,4 +1,5 @@
 export abstract class EnvConfig {
-  abstract getAppPort(): any;
+  abstract getAppPort(): number;
   abstract getNodeEnv(): string;
+  abstract getDatabaseUrl(): string;
 }
