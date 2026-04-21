@@ -15,6 +15,7 @@ export class EnvModule {
         ConfigModule.forRoot({
           envFilePath: join(__dirname, '../../../../../../.env'),
           isGlobal: true,
+          expandVariables: true,
           validate: (env) => envSchema.parse(env),
         }),
       ],
