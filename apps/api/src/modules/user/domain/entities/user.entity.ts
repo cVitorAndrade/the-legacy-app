@@ -83,6 +83,10 @@ export class User {
     this.props.name = name;
   }
 
+  get email(): string {
+    return this.props.email;
+  }
+
   set email(email: string) {
     this.props.email = email;
   }
