@@ -20,4 +20,20 @@ export class NestEnvConfigAdapter implements EnvConfig {
   getDatabaseUrl(): string {
     return this.configService.get('DATABASE_URL', { infer: true });
   }
+
+  getAccessTokenSecret(): string {
+    return this.configService.get('ACCESS_TOKEN_SECRET', { infer: true });
+  }
+
+  getRefreshTokenSecret(): string {
+    return this.configService.get('REFRESH_TOKEN_SECRET', { infer: true });
+  }
+
+  getAccessTokenExpiresIn(): string {
+    return this.configService.get('ACCESS_TOKEN_EXPIRES_IN', { infer: true });
+  }
+
+  getRefreshTokenExpiresIn(): string {
+    return this.configService.get('REFRESH_TOKEN_EXPIRES_IN', { infer: true });
+  }
 }
