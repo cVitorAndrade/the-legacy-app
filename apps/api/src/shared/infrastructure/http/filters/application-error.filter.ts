@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { IndetityAlreadyInUseError } from 'src/modules/identity/application/errors/identity-already-in-use.error';
+import { ProviderAlreadyLinked } from 'src/modules/identity/application/errors/provider-already-linked-error';
 import { EmailAlreadyInUseError } from 'src/modules/user/application/errors/email-already-in-use.error';
 import { ApplicationError } from 'src/shared/domain/errors/application.error';
 
@@ -14,6 +15,7 @@ export class ApplicationErrorFilter implements ExceptionFilter {
   private errorToHttpMap: Record<string, HttpStatus> = {
     [EmailAlreadyInUseError.name]: HttpStatus.CONFLICT,
     [IndetityAlreadyInUseError.name]: HttpStatus.CONFLICT,
+    [ProviderAlreadyLinked.name]: HttpStatus.CONFLICT,
   };
 
   catch(exception: ApplicationError, host: ArgumentsHost) {

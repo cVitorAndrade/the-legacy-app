@@ -6,4 +6,8 @@ export abstract class IdentityRepository {
     provider: string,
     providerId: string,
   ): Promise<Identity | null>;
+  abstract findByProviderAndUserId(
+    provider: string,
+    userId: string,
+  ): Promise<Identity | null>;
 }
