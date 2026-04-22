@@ -13,17 +13,18 @@ datasource db {
 }
 
 model User {
-  id         String     @id
-  name       String
-  email      String     @unique
-  username   String     @unique
-  password   String
-  avatarUrl  String?
-  role       String
-  status     String
-  createdAt  DateTime
-  updatedAt  DateTime   @updatedAt
-  identities Identity[]
+  id                   String                @id
+  name                 String
+  email                String                @unique
+  username             String                @unique
+  password             String
+  avatarUrl            String?
+  role                 String
+  status               String
+  createdAt            DateTime
+  updatedAt            DateTime              @updatedAt
+  identities           Identity[]
+  refreshTokenSessions RefreshTokenSession[]
 
   @@map("users")
 }
@@ -41,4 +42,23 @@ model Identity {
   @@unique([provider, providerId])
   @@unique([userId, provider])
   @@map("identities")
+}
+
+model RefreshTokenSession {
+  id        String    @unique
+  userId    String
+  tokenHash String    @unique
+  familyId  String
+  device    String
+  ipAddress String
+  createdAt DateTime
+  expiresAt DateTime
+  revokedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([tokenHash])
+  @@index([familyId])
+  @@map("RefreshTokenSessions")
 }
