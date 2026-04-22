@@ -60,5 +60,5 @@ model RefreshTokenSession {
   @@index([userId])
   @@index([tokenHash])
   @@index([familyId])
-  @@map("RefreshTokenSessions")
+  @@map("refresh_tokens_sessions")
 }
