@@ -14,4 +14,21 @@ export class PrismaIdentityRepository implements IdentityRepository {
       data: prismaIdentity,
     });
   }
+
+  async findByProviderAndProviderId(
+    provider: string,
+    providerId: string,
+  ): Promise<Identity | null> {
+    const prismaIdentity = await this.prismaService.identity.findUnique({
+      where: {
+        provider_providerId: {
+          provider,
+          providerId,
+        },
+      },
+    });
+    if (!prismaIdentity) return null;
+
+    return PrismaIdentityMapper.toDomain(prismaIdentity);
+  }
 }
