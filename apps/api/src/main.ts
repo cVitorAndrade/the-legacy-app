@@ -2,10 +2,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { ApplicationErrorFilter } from './shared/infrastructure/http/filters/application-error.filter';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalFilters(new ApplicationErrorFilter());
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -25,6 +27,14 @@ async function bootstrap() {
       },
     }),
   );
+
+  app.set('trust proxy', true);
+
+  app.enableCors({
+    origin: process.env.WEB_URL,
+    credentials: true,
+  });
+
   await app.listen(process.env.API_PORT!);
 }
 bootstrap();
