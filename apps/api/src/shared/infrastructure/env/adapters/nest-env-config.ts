@@ -40,4 +40,8 @@ export class NestEnvConfigAdapter implements EnvConfig {
       infer: true,
     });
   }
+
+  getWebUrl(): string {
+    return this.configService.get('WEB_URL');
+  }
 }

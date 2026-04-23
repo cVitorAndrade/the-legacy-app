@@ -6,4 +6,5 @@ export abstract class EnvConfig {
   abstract getRefreshTokenSecret(): string;
   abstract getAccessTokenExpiresInMs(): number;
   abstract getRefreshTokenExpiresInMs(): number;
+  abstract getWebUrl(): string;
 }
