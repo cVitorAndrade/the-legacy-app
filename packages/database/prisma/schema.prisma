@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                   String                @id
+  name                 String
+  email                String                @unique
+  username             String                @unique
+  password             String
+  avatarUrl            String?
+  role                 String
+  status               String
+  createdAt            DateTime
+  updatedAt            DateTime              @updatedAt
+  identities           Identity[]
+  refreshTokenSessions RefreshTokenSession[]
+
+  @@map("users")
+}
+
+model Identity {
+  id         String   @id
+  userId     String
+  provider   String
+  providerId String
+  createdAt  DateTime
+  updatedAt  DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerId])
+  @@unique([userId, provider])
+  @@map("identities")
+}
+
+model RefreshTokenSession {
+  id        String    @id
+  userId    String
+  tokenHash String    @unique
+  familyId  String
+  device    String
+  ipAddress String
+  createdAt DateTime
+  expiresAt DateTime
+  revokedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([tokenHash])
+  @@index([familyId])
+  @@map("refresh_tokens_sessions")
+}
