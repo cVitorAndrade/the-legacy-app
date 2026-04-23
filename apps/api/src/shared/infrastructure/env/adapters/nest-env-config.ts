@@ -29,11 +29,15 @@ export class NestEnvConfigAdapter implements EnvConfig {
     return this.configService.get('REFRESH_TOKEN_SECRET', { infer: true });
   }
 
-  getAccessTokenExpiresIn(): string {
-    return this.configService.get('ACCESS_TOKEN_EXPIRES_IN', { infer: true });
+  getAccessTokenExpiresInMs(): number {
+    return this.configService.get('ACCESS_TOKEN_EXPIRES_IN_MS', {
+      infer: true,
+    });
   }
 
-  getRefreshTokenExpiresIn(): string {
-    return this.configService.get('REFRESH_TOKEN_EXPIRES_IN', { infer: true });
+  getRefreshTokenExpiresInMs(): number {
+    return this.configService.get('REFRESH_TOKEN_EXPIRES_IN_MS', {
+      infer: true,
+    });
   }
 }

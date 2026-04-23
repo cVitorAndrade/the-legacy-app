@@ -4,6 +4,6 @@ export abstract class EnvConfig {
   abstract getDatabaseUrl(): string;
   abstract getAccessTokenSecret(): string;
   abstract getRefreshTokenSecret(): string;
-  abstract getAccessTokenExpiresIn(): string;
-  abstract getRefreshTokenExpiresIn(): string;
+  abstract getAccessTokenExpiresInMs(): number;
+  abstract getRefreshTokenExpiresInMs(): number;
 }

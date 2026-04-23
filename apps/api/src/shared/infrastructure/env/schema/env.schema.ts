@@ -6,8 +6,8 @@ export const envSchema = z.object({
   DATABASE_URL: z.string(),
   ACCESS_TOKEN_SECRET: z.string(),
   REFRESH_TOKEN_SECRET: z.string(),
-  ACCESS_TOKEN_EXPIRES_IN: z.coerce.string().default('15m'),
-  REFRESH_TOKEN_EXPIRES_IN: z.coerce.string().default('7d'),
+  ACCESS_TOKEN_EXPIRES_IN_MS: z.coerce.number(),
+  REFRESH_TOKEN_EXPIRES_IN_MS: z.coerce.number(),
 });
 
 export type EnvVariables = z.infer<typeof envSchema>;
