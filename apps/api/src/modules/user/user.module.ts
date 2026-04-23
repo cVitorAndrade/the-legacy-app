@@ -15,5 +15,6 @@ import { CreateUserUseCase } from './application/use-cases/create-user/create-us
   ],
   controllers: [],
   imports: [DatabaseModule, CryptographyModule],
+  exports: [CreateUserUseCase],
 })
 export class UserModule {}
