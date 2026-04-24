@@ -3,6 +3,7 @@ import { IdentityRepository } from 'src/modules/identity/domain/repositories/ide
 import { PrismaService } from 'src/shared/infrastructure/database/prisma/prisma.service';
 import { PrismaIdentityMapper } from '../mappers/prisma-identity.mapper';
 import { Injectable } from '@nestjs/common';
+import { AuthProvider } from 'src/shared/domain/enums/auth-provider.enum';
 
 @Injectable()
 export class PrismaIdentityRepository implements IdentityRepository {
@@ -16,7 +17,7 @@ export class PrismaIdentityRepository implements IdentityRepository {
   }
 
   async findByProviderAndProviderId(
-    provider: string,
+    provider: AuthProvider,
     providerId: string,
   ): Promise<Identity | null> {
     const prismaIdentity = await this.prismaService.identity.findUnique({
@@ -33,7 +34,7 @@ export class PrismaIdentityRepository implements IdentityRepository {
   }
 
   async findByProviderAndUserId(
-    provider: string,
+    provider: AuthProvider,
     userId: string,
   ): Promise<Identity | null> {
     const prismaIdentity = await this.prismaService.identity.findUnique({
