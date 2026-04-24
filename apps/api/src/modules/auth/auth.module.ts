@@ -5,9 +5,10 @@ import { UserModule } from '../user/user.module';
 import { LocalRegisterUseCase } from './application/use-cases/local-register/local-register.use-case';
 import { CryptographyModule } from 'src/shared/infrastructure/cryptography/cryptography.module';
 import { RefreshTokenSessionModule } from '../refresh-token-session/refresh-token-session.module';
+import { LocalLoginUseCase } from './application/use-cases/local-login/local-login.use-case';
 
 @Module({
-  providers: [LocalRegisterUseCase],
+  providers: [LocalRegisterUseCase, LocalLoginUseCase],
   controllers: [AuthController],
   imports: [
     IdentityModule,
