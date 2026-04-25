@@ -6,6 +6,8 @@ import { AuthTokenService } from './services/auth-token.service';
 import { JwtAdapter } from './adapters/jwt.adapter';
 import { RandomStringGeneratorProvider } from 'src/shared/application/cryptography/protocols/random-string-generator.protocol';
 import { CryptoAdapter } from './adapters/crypto.adapter';
+import { TokenHashProvider } from 'src/shared/application/cryptography/protocols/token-hash.protocol';
+import { CryptoTokenHashAdapter } from './adapters/crypto-token-hash.adapter';
 
 @Module({
   providers: [
@@ -21,6 +23,10 @@ import { CryptoAdapter } from './adapters/crypto.adapter';
       provide: RandomStringGeneratorProvider,
       useClass: CryptoAdapter,
     },
+    {
+      provide: TokenHashProvider,
+      useClass: CryptoTokenHashAdapter,
+    },
     AuthTokenService,
   ],
   exports: [
@@ -28,6 +34,7 @@ import { CryptoAdapter } from './adapters/crypto.adapter';
     TokenProvider,
     AuthTokenService,
     RandomStringGeneratorProvider,
+    TokenHashProvider,
   ],
 })
 export class CryptographyModule {}

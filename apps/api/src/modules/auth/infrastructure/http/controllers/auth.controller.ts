@@ -6,14 +6,17 @@ import {
   HttpStatus,
   Ip,
   Post,
+  Req,
   Res,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { LocalRegisterRequestDto } from '../dtos/local-register-request.dto';
 import { LocalRegisterUseCase } from 'src/modules/auth/application/use-cases/local-register/local-register.use-case';
-import type { Response } from 'express';
+import type { Response, Request } from 'express';
 import { EnvConfig } from 'src/shared/infrastructure/env/protocols/env-config.protocol';
 import { LocalLoginRequestDto } from '../dtos/local-login-request.dto';
 import { LocalLoginUseCase } from 'src/modules/auth/application/use-cases/local-login/local-login.use-case';
+import { RefreshTokenUseCase } from 'src/modules/auth/application/use-cases/refresh-token/refresh-token.use-case';
 
 @Controller('auth')
 export class AuthController {
@@ -21,6 +24,7 @@ export class AuthController {
     private readonly envConfig: EnvConfig,
     private readonly localRegisterUseCase: LocalRegisterUseCase,
     private readonly localLoginUseCase: LocalLoginUseCase,
+    private readonly refreshTokenUseCase: RefreshTokenUseCase,
   ) {}
 
   @Post('register')
@@ -73,5 +77,38 @@ export class AuthController {
     });
 
     return { accessToken, user };
+  }
+
+  @Post('refresh')
+  async refresh(
+    @Body() body: LocalLoginRequestDto,
+    @Ip() ipAddress: string,
+    @Headers('user-agent') userAgent: string,
+    @Res({ passthrough: true }) response: Response,
+    @Req() req: Request,
+  ) {
+    const rawRefreshToken = req.cookies?.['refresh_token'] as
+      | string
+      | undefined;
+
+    if (!rawRefreshToken) {
+      throw new UnauthorizedException('Refresh token ausente');
+    }
+
+    const { accessToken } = await this.refreshTokenUseCase.execute({
+      device: userAgent,
+      ipAddress,
+      rawRefreshToken,
+    });
+
+    response.cookie('refresh_token', rawRefreshToken, {
+      httpOnly: true,
+      secure: this.envConfig.getNodeEnv() === 'production',
+      sameSite: 'strict',
+      path: '/auth/refresh',
+      maxAge: this.envConfig.getRefreshTokenExpiresInMs(),
+    });
+
+    return { accessToken };
   }
 }

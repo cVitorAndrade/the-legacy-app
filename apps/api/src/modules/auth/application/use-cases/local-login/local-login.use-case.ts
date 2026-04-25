@@ -5,7 +5,7 @@ import { UserStatus } from 'src/modules/user/domain/enums/user-status.enum';
 import { FindIdentityByProviderAndUserIdUseCase } from 'src/modules/identity/application/use-cases/find-identity-by-provider-and-user-id/find-identity-by-provider-and-user-id.use-case';
 import { AuthProvider } from 'src/shared/domain/enums/auth-provider.enum';
 import { HasheProvider } from 'src/shared/application/cryptography/protocols/hasher.protocol';
-import { CreateRefreshTokenSessionUseCase } from 'src/modules/refresh-token-session/application/use-cases/create-refresh-token-session.use-case';
+import { CreateRefreshTokenSessionUseCase } from 'src/modules/refresh-token-session/application/use-cases/create-refresh-token-session/create-refresh-token-session.use-case';
 import { AuthTokenService } from 'src/shared/infrastructure/cryptography/services/auth-token.service';
 
 interface LoginLocalRequest {
