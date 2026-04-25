@@ -1,13 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { RefreshTokenSessionRepository } from '../../domain/repositories/refresh-token-session.repository';
-import { RefreshTokenSession } from '../../domain/entities/refresh-token-session.entity';
-import { HasheProvider } from 'src/shared/application/cryptography/protocols/hasher.protocol';
+import { RefreshTokenSessionRepository } from '../../../domain/repositories/refresh-token-session.repository';
+import { RefreshTokenSession } from '../../../domain/entities/refresh-token-session.entity';
 import { RandomStringGeneratorProvider } from 'src/shared/application/cryptography/protocols/random-string-generator.protocol';
+import { TokenHashProvider } from 'src/shared/application/cryptography/protocols/token-hash.protocol';
 
 interface CreateRefreshTokenSessionRequest {
   userId: string;
   device: string;
   ipAddress: string;
+  familyId?: string;
 }
 
 @Injectable()
@@ -16,7 +17,7 @@ export class CreateRefreshTokenSessionUseCase {
     @Inject('REFRESH_TOKEN_EXPIRES_IN_MS')
     private readonly refreshTokenExpiresInMs: number,
     private readonly refreshTokenSessionRepository: RefreshTokenSessionRepository,
-    private readonly hashProvider: HasheProvider,
+    private readonly tokenHashProvider: TokenHashProvider,
     private readonly randomStringGeneratorProvider: RandomStringGeneratorProvider,
   ) {}
 
@@ -33,8 +34,15 @@ export class CreateRefreshTokenSessionUseCase {
       device: createRefreshTokenSessionRequest.device,
       userId: createRefreshTokenSessionRequest.userId,
       ipAddress: createRefreshTokenSessionRequest.ipAddress,
-      tokenHash: await this.hashProvider.hash(rawToken),
+      tokenHash: this.tokenHashProvider.hash(rawToken),
+      familyId: createRefreshTokenSessionRequest.familyId ?? undefined,
       expiresAt,
+    });
+
+    console.log({
+      first: this.tokenHashProvider.hash(rawToken),
+      second: this.tokenHashProvider.hash(rawToken),
+      thirt: this.tokenHashProvider.hash(rawToken),
     });
 
     await this.refreshTokenSessionRepository.create(refreshTokenSession);
