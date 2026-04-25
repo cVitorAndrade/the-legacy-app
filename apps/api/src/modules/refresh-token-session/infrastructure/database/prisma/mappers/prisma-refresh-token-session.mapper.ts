@@ -25,4 +25,30 @@ export class PrismaRefreshTokenSessionMapper {
       createdAt,
     };
   }
+
+  static toDomain({
+    id,
+    device,
+    ipAddress,
+    familyId,
+    tokenHash,
+    userId,
+    expiresAt,
+    revokedAt,
+    createdAt,
+  }: PrismaRefreshTokenSession): RefreshTokenSession {
+    return new RefreshTokenSession(
+      {
+        device,
+        ipAddress,
+        familyId,
+        tokenHash,
+        userId,
+        expiresAt,
+        revokedAt,
+        createdAt,
+      },
+      id,
+    );
+  }
 }

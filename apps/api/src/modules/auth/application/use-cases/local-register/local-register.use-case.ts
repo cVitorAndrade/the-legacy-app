@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateIdentityUseCase } from 'src/modules/identity/application/use-cases/create-identity/create-identity.use-case';
-import { CreateRefreshTokenSessionUseCase } from 'src/modules/refresh-token-session/application/use-cases/create-refresh-token-session.use-case';
+import { CreateRefreshTokenSessionUseCase } from 'src/modules/refresh-token-session/application/use-cases/create-refresh-token-session/create-refresh-token-session.use-case';
 import { CreateUserUseCase } from 'src/modules/user/application/use-cases/create-user/create-user.use-case';
 import { TransactionManagerService } from 'src/shared/application/database/protocols/transaction-manager.protocol';
 import { AuthProvider } from 'src/shared/domain/enums/auth-provider.enum';

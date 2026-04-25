@@ -16,4 +16,45 @@ export class PrismaRefreshTokenSessionRepository
       data: prismaRefreshTokenSession,
     });
   }
+
+  async findByTokenHash(
+    tokenHash: string,
+  ): Promise<RefreshTokenSession | null> {
+    const prismaRefreshTokenSession =
+      await this.prismaService.refreshTokenSession.findUnique({
+        where: { tokenHash },
+      });
+    if (!prismaRefreshTokenSession) return null;
+
+    return PrismaRefreshTokenSessionMapper.toDomain(prismaRefreshTokenSession);
+  }
+
+  async findById(id: string): Promise<RefreshTokenSession | null> {
+    const prismaRefreshTokenSession =
+      await this.prismaService.refreshTokenSession.findUnique({
+        where: { id },
+      });
+    if (!prismaRefreshTokenSession) return null;
+
+    return PrismaRefreshTokenSessionMapper.toDomain(prismaRefreshTokenSession);
+  }
+
+  async save(refreshTokenSession: RefreshTokenSession): Promise<void> {
+    const prismaRefreshTokenSession =
+      PrismaRefreshTokenSessionMapper.toPersistence(refreshTokenSession);
+    await this.prismaService.refreshTokenSession.update({
+      data: prismaRefreshTokenSession,
+      where: { id: prismaRefreshTokenSession.id },
+    });
+  }
+
+  async revokeAllByFamilyId(
+    familyId: string,
+    data: Partial<RefreshTokenSession>,
+  ): Promise<void> {
+    await this.prismaService.refreshTokenSession.updateMany({
+      where: { familyId },
+      data,
+    });
+  }
 }

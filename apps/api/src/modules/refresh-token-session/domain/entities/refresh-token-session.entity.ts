@@ -88,4 +88,14 @@ export class RefreshTokenSession {
   set revokedAt(revokedAt: Date | null) {
     this.props.revokedAt = revokedAt;
   }
+
+  public revoke() {
+    this.props.revokedAt = new Date();
+  }
+
+  static getRevocationPolicy(): Pick<RefreshTokenSessionProps, 'revokedAt'> {
+    return {
+      revokedAt: new Date(),
+    };
+  }
 }
