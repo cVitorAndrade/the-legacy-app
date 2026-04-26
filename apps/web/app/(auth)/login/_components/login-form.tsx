@@ -9,25 +9,53 @@ import Link from "next/link";
 import { Controller, useForm } from "react-hook-form";
 
 import z from "zod";
+import { useAuthActions } from "../../../../hooks/use-auth-actions";
+import { useState } from "react";
+import { isAxiosError } from "axios";
 
 const loginSchema = z.object({
-  email: z.email().nonempty(),
-  password: z.string().nonempty().min(8).max(64),
+  email: z
+    .email("Endereço de e-mail inválido.")
+    .min(1, "O e-mail não pode estar vazio."),
+  password: z
+    .string("A senha é obrigatória.")
+    .min(8, "A senha deve ter no mínimo 8 caracteres.")
+    .max(64, "A senha deve ter no máximo 64 caracteres."),
 });
 
 type loginSchemaType = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
+  const { login } = useAuthActions();
+  const [error, setError] = useState<string | null>(null);
+
   const loginForm = useForm<loginSchemaType>({
     resolver: zodResolver(loginSchema),
+    mode: "onChange",
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = (values: loginSchemaType) => {
-    console.log({ values });
+  const onSubmit = async (values: loginSchemaType) => {
+    setError(null);
+    try {
+      await login(values);
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const status = error.response?.status;
+        const message = error.response?.data?.message;
+
+        if (status === 401) {
+          setError("Email ou senha incorretos");
+        } else if (status === 429) {
+          setError("Muitas tentativas. Aguarde alguns minutos.");
+        } else {
+          setError(message ?? "Erro inesperado. Tente novamente.");
+        }
+      }
+    }
   };
 
   return (
@@ -68,6 +96,15 @@ export default function LoginForm() {
                 )}
               />
             </div>
+
+            {loginForm.formState.errors.email &&
+              loginForm.formState.errors.email.message && (
+                <div>
+                  <span className="text-xs text-destructive ">
+                    {loginForm.formState.errors.email.message}
+                  </span>
+                </div>
+              )}
           </div>
 
           <div className="flex flex-col gap-2">
@@ -93,6 +130,15 @@ export default function LoginForm() {
                 )}
               />
             </div>
+
+            {loginForm.formState.errors.password &&
+              loginForm.formState.errors.password.message && (
+                <div>
+                  <span className="text-xs text-destructive ">
+                    {loginForm.formState.errors.password.message}
+                  </span>
+                </div>
+              )}
           </div>
         </div>
 
@@ -152,7 +198,10 @@ export default function LoginForm() {
 
       <p className="text-center text-sm text-muted-foreground pt-4">
         Ainda não possui uma conta?{" "}
-        <Link className="text-secondary font-bold hover:underline" href="/signup">
+        <Link
+          className="text-secondary font-bold hover:underline"
+          href="/signup"
+        >
           Clique aqui
         </Link>
         .
