@@ -7,9 +7,15 @@ import { CryptographyModule } from 'src/shared/infrastructure/cryptography/crypt
 import { RefreshTokenSessionModule } from '../refresh-token-session/refresh-token-session.module';
 import { LocalLoginUseCase } from './application/use-cases/local-login/local-login.use-case';
 import { RefreshTokenUseCase } from './application/use-cases/refresh-token/refresh-token.use-case';
+import { LogoutUseCase } from './application/use-cases/logout/logout.use-case';
 
 @Module({
-  providers: [LocalRegisterUseCase, LocalLoginUseCase, RefreshTokenUseCase],
+  providers: [
+    LocalRegisterUseCase,
+    LocalLoginUseCase,
+    RefreshTokenUseCase,
+    LogoutUseCase,
+  ],
   controllers: [AuthController],
   imports: [
     IdentityModule,
