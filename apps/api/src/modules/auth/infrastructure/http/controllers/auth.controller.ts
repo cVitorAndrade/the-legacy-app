@@ -17,6 +17,7 @@ import { EnvConfig } from 'src/shared/infrastructure/env/protocols/env-config.pr
 import { LocalLoginRequestDto } from '../dtos/local-login-request.dto';
 import { LocalLoginUseCase } from 'src/modules/auth/application/use-cases/local-login/local-login.use-case';
 import { RefreshTokenUseCase } from 'src/modules/auth/application/use-cases/refresh-token/refresh-token.use-case';
+import { LogoutUseCase } from 'src/modules/auth/application/use-cases/logout/logout.use-case';
 
 @Controller('auth')
 export class AuthController {
@@ -25,6 +26,7 @@ export class AuthController {
     private readonly localRegisterUseCase: LocalRegisterUseCase,
     private readonly localLoginUseCase: LocalLoginUseCase,
     private readonly refreshTokenUseCase: RefreshTokenUseCase,
+    private readonly logoutUseCase: LogoutUseCase,
   ) {}
 
   @Post('register')
@@ -81,7 +83,6 @@ export class AuthController {
 
   @Post('refresh')
   async refresh(
-    @Body() body: LocalLoginRequestDto,
     @Ip() ipAddress: string,
     @Headers('user-agent') userAgent: string,
     @Res({ passthrough: true }) response: Response,
@@ -110,5 +111,21 @@ export class AuthController {
     });
 
     return { accessToken };
+  }
+
+  @Post('logout')
+  async logout(
+    @Res({ passthrough: true }) response: Response,
+    @Req() req: Request,
+  ) {
+    const rawRefreshToken = req.cookies?.['refresh_token'] as
+      | string
+      | undefined;
+
+    if (rawRefreshToken) {
+      await this.logoutUseCase.execute({ rawRefreshToken });
+    }
+
+    response.clearCookie('refresh_token', { path: '/auth/refresh' });
   }
 }
