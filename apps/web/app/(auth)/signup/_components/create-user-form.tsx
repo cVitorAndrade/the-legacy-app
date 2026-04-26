@@ -9,31 +9,82 @@ import { AtSign, Key, Lock, Mail, UserSquare } from "lucide-react";
 import Link from "next/link";
 import { Controller, useForm } from "react-hook-form";
 import z from "zod";
+import { useAuthActions } from "../../../../hooks/use-auth-actions";
+import { useState } from "react";
+import { isAxiosError } from "axios";
 
-const createUserSchema = z.object({
-  name: z.string().nonempty(),
-  email: z.email().nonempty(),
-  username: z.string().nonempty().max(64),
-  password: z.string().nonempty().min(8).max(64),
-  matchPassword: z.string().nonempty().check(),
-});
+const createUserSchema = z
+  .object({
+    name: z
+      .string("O nome é obrigatório.")
+      .min(4, "O nome deve ter no mínimo 4 caracteres"),
+
+    email: z
+      .email("Endereço de e-mail inválido.")
+      .min(1, "O e-mail não pode estar vazio."),
+
+    username: z
+      .string("O nome de usuário é obrigatório.")
+      .min(4, "O nome de usuário deve ter no mínimo 4 caracteres.")
+      .max(64, "O nome de usuário deve ter no máximo 64 caracteres."),
+
+    password: z
+      .string("A senha é obrigatória.")
+      .min(8, "A senha deve ter no mínimo 8 caracteres.")
+      .max(64, "A senha deve ter no máximo 64 caracteres."),
+
+    matchPassword: z
+      .string("A confirmação de senha é obrigatória.")
+      .min(1, "A confirmação de senha não pode estar vazia."),
+    acceptedTermsAndPrivacyPolicy: z.boolean().refine((val) => val === true, {
+      error:
+        "Você precisa aceitar os Termos de Uso e a Política de Privacidade.",
+    }),
+  })
+  .refine((data) => data.password === data.matchPassword, {
+    message: "As senhas não coincidem.",
+    path: ["matchPassword"],
+  });
 
 type createUserSchemaType = z.infer<typeof createUserSchema>;
 
 export default function CreateUserForm() {
+  const { register: registerAction } = useAuthActions();
+  const [error, setError] = useState<string | null>(null);
+
   const createUserForm = useForm<createUserSchemaType>({
     resolver: zodResolver(createUserSchema),
+    mode: "onChange",
     defaultValues: {
       name: "",
       username: "",
       email: "",
       password: "",
       matchPassword: "",
+      acceptedTermsAndPrivacyPolicy: false,
     },
   });
 
-  const onSubmit = (values: createUserSchemaType) => {
-    console.log({ values });
+  const onSubmit = async ({
+    name,
+    email,
+    password,
+    username,
+  }: createUserSchemaType) => {
+    setError(null);
+
+    try {
+      await registerAction({ email, name, password, username });
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const status = error.response?.status;
+        if (status === 409) {
+          setError("Email ou username já cadastrado");
+        } else {
+          setError("Erro ao criar conta. Tente novamente.");
+        }
+      }
+    }
   };
 
   return (
@@ -75,6 +126,15 @@ export default function CreateUserForm() {
                 )}
               />
             </div>
+
+            {createUserForm.formState.errors.name &&
+              createUserForm.formState.errors.name.message && (
+                <div>
+                  <span className="text-xs text-destructive ">
+                    {createUserForm.formState.errors.name.message}
+                  </span>
+                </div>
+              )}
           </div>
 
           <div className="flex flex-col gap-2">
@@ -99,6 +159,15 @@ export default function CreateUserForm() {
                 )}
               />
             </div>
+
+            {createUserForm.formState.errors.email &&
+              createUserForm.formState.errors.email.message && (
+                <div>
+                  <span className="text-xs text-destructive ">
+                    {createUserForm.formState.errors.email.message}
+                  </span>
+                </div>
+              )}
           </div>
 
           <div className="flex flex-col gap-2">
@@ -123,6 +192,15 @@ export default function CreateUserForm() {
                 )}
               />
             </div>
+
+            {createUserForm.formState.errors.username &&
+              createUserForm.formState.errors.username.message && (
+                <div>
+                  <span className="text-xs text-destructive ">
+                    {createUserForm.formState.errors.username.message}
+                  </span>
+                </div>
+              )}
           </div>
 
           <div className="flex flex-col gap-2">
@@ -148,6 +226,15 @@ export default function CreateUserForm() {
                 )}
               />
             </div>
+
+            {createUserForm.formState.errors.password &&
+              createUserForm.formState.errors.password.message && (
+                <div>
+                  <span className="text-xs text-destructive ">
+                    {createUserForm.formState.errors.password.message}
+                  </span>
+                </div>
+              )}
           </div>
 
           <div className="flex flex-col gap-2">
@@ -173,24 +260,58 @@ export default function CreateUserForm() {
                 )}
               />
             </div>
+
+            {createUserForm.formState.errors.matchPassword &&
+              createUserForm.formState.errors.matchPassword.message && (
+                <div>
+                  <span className="text-xs text-destructive ">
+                    {createUserForm.formState.errors.matchPassword.message}
+                  </span>
+                </div>
+              )}
           </div>
         </div>
 
-        <div className="flex items-center gap-3 mt-4">
-          <div className="flex items-center h-5">
-            <Checkbox id="terms" />
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-3 mt-4">
+            <div className="flex items-center h-5">
+              <Controller
+                name="acceptedTermsAndPrivacyPolicy"
+                control={createUserForm.control}
+                render={({ field }) => (
+                  <Checkbox
+                    id="terms"
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                )}
+              />
+            </div>
+            <Label className="text-xs text-muted-foreground" htmlFor="terms">
+              Eu aceito os{" "}
+              <a className="text-primary hover:underline font-bold" href="#">
+                Termos de Uso
+              </a>{" "}
+              e{" "}
+              <a className="text-primary hover:underline font-bold" href="#">
+                Política de Privacidade
+              </a>
+              .
+            </Label>
           </div>
-          <Label className="text-xs text-muted-foreground" htmlFor="terms">
-            Eu aceito os{" "}
-            <a className="text-primary hover:underline font-bold" href="#">
-              Termos de Uso
-            </a>{" "}
-            e{" "}
-            <a className="text-primary hover:underline font-bold" href="#">
-              Política de Privacidade
-            </a>
-            .
-          </Label>
+
+          {createUserForm.formState.errors.acceptedTermsAndPrivacyPolicy &&
+            createUserForm.formState.errors.acceptedTermsAndPrivacyPolicy
+              .message && (
+              <div>
+                <span className="text-xs text-destructive ">
+                  {
+                    createUserForm.formState.errors
+                      .acceptedTermsAndPrivacyPolicy.message
+                  }
+                </span>
+              </div>
+            )}
         </div>
 
         <Button className="flex w-full items-center justify-center gap-2 px-5 py-2.5 bg-linear-to-br from-[#9cff93] to-[#00fc40] text-[#006413] font-sans font-black text-xs tracking-widest uppercase rounded-md hover:brightness-105 transition-all shadow-[0_0_15px_rgba(0,252,64,0.2)] cursor-pointer">
