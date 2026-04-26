@@ -48,7 +48,7 @@ export class AuthController {
       httpOnly: true,
       secure: this.envConfig.getNodeEnv() === 'production',
       sameSite: 'strict',
-      path: '/auth/refresh',
+      path: '/',
       maxAge: this.envConfig.getRefreshTokenExpiresInMs(),
     });
 
@@ -74,7 +74,7 @@ export class AuthController {
       httpOnly: true,
       secure: this.envConfig.getNodeEnv() === 'production',
       sameSite: 'strict',
-      path: '/auth/refresh',
+      path: '/',
       maxAge: this.envConfig.getRefreshTokenExpiresInMs(),
     });
 
@@ -106,7 +106,7 @@ export class AuthController {
       httpOnly: true,
       secure: this.envConfig.getNodeEnv() === 'production',
       sameSite: 'strict',
-      path: '/auth/refresh',
+      path: '/',
       maxAge: this.envConfig.getRefreshTokenExpiresInMs(),
     });
 
@@ -126,6 +126,6 @@ export class AuthController {
       await this.logoutUseCase.execute({ rawRefreshToken });
     }
 
-    response.clearCookie('refresh_token', { path: '/auth/refresh' });
+    response.clearCookie('refresh_token', { path: '/' });
   }
 }
