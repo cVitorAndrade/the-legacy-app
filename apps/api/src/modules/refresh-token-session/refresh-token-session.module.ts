@@ -8,6 +8,7 @@ import { PrismaRefreshTokenSessionRepository } from './infrastructure/database/p
 import { FindRefreshTokenSessionByTokenHashUseCase } from './application/use-cases/find-refresh-token-session-by-token-hash/find-refresh-token-session-by-token-hash.use-case';
 import { RevokeRefreshTokenSessionUseCase } from './application/use-cases/revoke-refresh-token-session/revoke-refresh-token-session.use-case';
 import { RevokeAllRefreshTokenSessionsByFamilyIdUseCase } from './application/use-cases/revoke-all-refresh-token-sessions-by-family-id/revoke-all-refresh-token-sessions-by-family-id.use-case';
+import { UpdateRefreshTokenSessionUseCase } from './application/use-cases/update-refresh-token-session/update-refresh-token-session.use-case';
 
 @Module({
   providers: [
@@ -26,6 +27,7 @@ import { RevokeAllRefreshTokenSessionsByFamilyIdUseCase } from './application/us
     FindRefreshTokenSessionByTokenHashUseCase,
     RevokeRefreshTokenSessionUseCase,
     RevokeAllRefreshTokenSessionsByFamilyIdUseCase,
+    UpdateRefreshTokenSessionUseCase,
   ],
   imports: [DatabaseModule, CryptographyModule],
   exports: [
@@ -33,6 +35,7 @@ import { RevokeAllRefreshTokenSessionsByFamilyIdUseCase } from './application/us
     FindRefreshTokenSessionByTokenHashUseCase,
     RevokeRefreshTokenSessionUseCase,
     RevokeAllRefreshTokenSessionsByFamilyIdUseCase,
+    UpdateRefreshTokenSessionUseCase,
   ],
 })
 export class RefreshTokenSessionModule {}
