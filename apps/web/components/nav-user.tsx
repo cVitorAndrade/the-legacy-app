@@ -29,6 +29,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@repo/ui/components/ui/sidebar";
+import { useAuthActions } from "../hooks/use-auth-actions";
 
 export function NavUser({
   user,
@@ -40,6 +41,8 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
+
+  const { logout } = useAuthActions();
 
   return (
     <SidebarMenu>
@@ -102,7 +105,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={logout}>
               <LogOut />
               Log out
             </DropdownMenuItem>
